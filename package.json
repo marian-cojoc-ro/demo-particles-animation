@@ -1,0 +1,21 @@
+{
+  "name": "demo-particles-gravity",
+  "version": "1.0.0",
+  "description": "Demo project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marian-COJOC-ro",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rollup": "^1.7.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.5",
+    "rollup": "^0.25.4"
+  },
+  "dependencies": {
+    "lodash": "^4.5.1"
+  }
+}
