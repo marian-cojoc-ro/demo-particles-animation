@@ -1,6 +1,6 @@
 # Demo: Particles animation with gravity
 
-Simple project for didactically purposes illustrating javascript driven animations
+Simple project for didactic purposes illustrating javascript driven animations
 as well as simple application architecture approaches
 
 # Variants
