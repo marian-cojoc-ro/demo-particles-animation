@@ -4,16 +4,16 @@ import ParticleRound from './particle-round';
 class Scene {
   constructor(canvas) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
 
     this.particles = [];
     this.particlesPerSecond = 100;
     this.lastTick = null;
-    this.mouse = {x: 150, y: 50};
-    this.maxParticles = 200;
+    this.mouse = {x: 300, y: 50};
+    this.maxParticles = 500;
 
     //this.initialDone = false;
     const self = this;
+    //this.mouse = null;
     setTimeout(function(){
       self.mouse = null;
     }, 3000);
@@ -21,7 +21,6 @@ class Scene {
 
   loop(){
     var self = this;
-    this.ctx.clearRect(0, 0, 600, 600);
 
     const now = new Date();
     const nowMs = now.getTime();
@@ -40,6 +39,10 @@ class Scene {
       const partCountToDelete = Math.max(0, (newPartCount + oldPartCount) - this.maxParticles);
 
       const oldParticlesLeft = this.particles.slice(0, this.particles.length - partCountToDelete);
+      const toDelete = this.particles.slice(this.particles.length - partCountToDelete, this.particles.length);
+      toDelete.forEach(function(partToDelete){
+        partToDelete.destroy();
+      });
       let newParticles = [];
 
       for (let i = 0; i<newPartCount; i++) {
@@ -50,6 +53,7 @@ class Scene {
         const Constructor = constructors[Math.floor(Math.random() * 2)];
 
         newParticles.unshift(new Constructor(
+          this.canvas,
           {
             x: this.mouse.x,
             y: this.mouse.y
@@ -63,13 +67,10 @@ class Scene {
       this.particles = newParticles.concat(oldParticlesLeft);
     }
 
-    this.particles.forEach(function(particle){
+    let tickOneParticle = function(particle) {
       particle.tick(diff);
-    });
-
-    this.particles.forEach(function(particle){
-      particle.draw(self.ctx);
-    });
+    };
+    this.particles.forEach(tickOneParticle);
 
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const particle = this.particles[i];
@@ -80,6 +81,7 @@ class Scene {
       self.loop();
     });
   }
+
 
   start() {
     this.loop();

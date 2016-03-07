@@ -1,5 +1,6 @@
 export default class Particle{
-  constructor(pos, vel) {
+  constructor(canvas, pos, vel) {
+    this.canvas = canvas;
     this.pos = pos;
     this.vel = vel;
     //gravity
@@ -8,7 +9,15 @@ export default class Particle{
     this.b = 0.5;
     this.r = 10 + (Math.random() * 20);
     const h = Math.floor(Math.random() * 360);
-    this.color = `hsla(${h}, 100%, 60%, 0.8)`;
+    this.initialStyle = `background-color: hsla(${h}, 100%, 60%, 0.8);`;
+    this.initialStyle += `width: ${this.r}px; height: ${this.r}px;`;
+    this.init();
+  }
+  init() {
+    const el = document.createElement('div');
+    el.setAttribute('class', 'particle')
+    this.canvas.appendChild(el);
+    this.el = el;
   }
 
   /**
@@ -42,6 +51,11 @@ export default class Particle{
       this.vel.x *= -1;
     }
 
-
+  }
+  computePosStyle() {
+    return `transform: translate(${this.pos.x - this.r/2}px, ${this.pos.y - this.r / 2}px);`;
+  }
+  destroy(){
+    this.el.parentNode.removeChild(this.el);
   }
 }

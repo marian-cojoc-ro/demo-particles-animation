@@ -2,7 +2,8 @@
   'use strict';
 
   class Particle{
-    constructor(pos, vel) {
+    constructor(canvas, pos, vel) {
+      this.canvas = canvas;
       this.pos = pos;
       this.vel = vel;
       //gravity
@@ -11,7 +12,15 @@
       this.b = 0.5;
       this.r = 10 + (Math.random() * 20);
       const h = Math.floor(Math.random() * 360);
-      this.color = `hsla(${h}, 100%, 60%, 0.8)`;
+      this.initialStyle = `background-color: hsla(${h}, 100%, 60%, 0.8);`;
+      this.initialStyle += `width: ${this.r}px; height: ${this.r}px;`;
+      this.init();
+    }
+    init() {
+      const el = document.createElement('div');
+      el.setAttribute('class', 'particle')
+      this.canvas.appendChild(el);
+      this.el = el;
     }
 
     /**
@@ -45,50 +54,47 @@
         this.vel.x *= -1;
       }
 
-
+    }
+    computePosStyle() {
+      return `transform: translate(${this.pos.x - this.r/2}px, ${this.pos.y - this.r / 2}px);`;
+    }
+    destroy(){
+      this.el.parentNode.removeChild(this.el);
     }
   }
 
   class ParticleSquare extends Particle {
     draw(ctx) {
-      //put the shape on the context
-      ctx.fillStyle = this.color;
-      ctx.fillRect(
-        this.pos.x - (this.r / 2),
-        this.pos.y - (this.r / 2),
-        this.r,
-        this.r
-      );
+      this.el.setAttribute('style', this.initialStyle + this.computePosStyle());
     }
   }
 
   class ParticleRound extends Particle {
     constructor(...p) {
       super(...p);
+      //circles are extra bouncy
       this.b = 0.65;
     }
     draw(ctx) {
       //put the shape on the context
-      ctx.fillStyle = this.color;
-      ctx.beginPath();
-      ctx.arc(this.pos.x, this.pos.y, this.r/2, 0, 2 * Math.PI);
-      ctx.fill();
+      const roundStyle = 'border-radius: 50%;';
+      this.el.setAttribute('style', this.initialStyle + this.computePosStyle() + roundStyle);
     }
   }
 
   class Scene {
     constructor(canvas) {
       this.canvas = canvas;
-      this.ctx = canvas.getContext('2d');
 
       this.particles = [];
       this.particlesPerSecond = 100;
       this.lastTick = null;
-      this.mouse = {x: 150, y: 50};
-      this.maxParticles = 200;
+      this.mouse = {x: 300, y: 50};
+      this.maxParticles = 500;
 
       //this.initialDone = false;
       const self = this;
+      //this.mouse = null;
       setTimeout(function(){
         self.mouse = null;
       }, 3000);
@@ -96,7 +102,6 @@
 
     loop(){
       var self = this;
-      this.ctx.clearRect(0, 0, 600, 600);
 
       const now = new Date();
       const nowMs = now.getTime();
@@ -115,6 +120,10 @@
         const partCountToDelete = Math.max(0, (newPartCount + oldPartCount) - this.maxParticles);
 
         const oldParticlesLeft = this.particles.slice(0, this.particles.length - partCountToDelete);
+        const toDelete = this.particles.slice(this.particles.length - partCountToDelete, this.particles.length);
+        toDelete.forEach(function(partToDelete){
+          partToDelete.destroy();
+        });
         let newParticles = [];
 
         for (let i = 0; i<newPartCount; i++) {
@@ -125,6 +134,7 @@
           const Constructor = constructors[Math.floor(Math.random() * 2)];
 
           newParticles.unshift(new Constructor(
+            this.canvas,
             {
               x: this.mouse.x,
               y: this.mouse.y
@@ -138,13 +148,10 @@
         this.particles = newParticles.concat(oldParticlesLeft);
       }
 
-      this.particles.forEach(function(particle){
+      let tickOneParticle = function(particle) {
         particle.tick(diff);
-      });
-
-      this.particles.forEach(function(particle){
-        particle.draw(self.ctx);
-      });
+      };
+      this.particles.forEach(tickOneParticle);
 
       for (let i = this.particles.length - 1; i >= 0; i--) {
         const particle = this.particles[i];
@@ -155,6 +162,7 @@
         self.loop();
       });
     }
+
 
     start() {
       this.loop();
@@ -184,9 +192,8 @@
   }
 
   var startDemo = function(){
-    const canvas = document.querySelector('canvas');
+    const canvas = document.querySelector('.canvas');
     var demoScene = new Scene(canvas);
-
     demoScene.start();
   };
 

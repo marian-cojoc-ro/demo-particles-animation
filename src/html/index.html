@@ -1,22 +1,32 @@
 
 
-<h4>Markup</h4>
+<h4>simple oop dom version</h4>
+<p>Updateding the style attribute</p>
+<p>This is not optimized, when GC hits, it hits hard</p>
+<a href="https://github.com/marian-cojoc-ro/demo-particles-animation">Source</a>
 
-<canvas width="600" height="600">
+<div class="canvas">
 
-</canvas>
+</div>
 
 <style>
   body{
-    background-color: burlywood;
+    background-color: slategray;
   }
-  canvas{
-    border: 1px solid greenyellow;
-    background-color: burlywood;
+  .canvas{
+    border: 1px solid black;
+    background-color: dimgray;
     position: absolute;
+    overflow: hidden;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+  }
+  .particle{
+    position: absolute;
+    pointer-events: none;
   }
 
 </style>

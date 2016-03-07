@@ -2,14 +2,7 @@ import Particle from './particle';
 
 class ParticleSquare extends Particle {
   draw(ctx) {
-    //put the shape on the context
-    ctx.fillStyle = this.color;
-    ctx.fillRect(
-      this.pos.x - (this.r / 2),
-      this.pos.y - (this.r / 2),
-      this.r,
-      this.r
-    );
+    this.el.setAttribute('style', this.initialStyle + this.computePosStyle());
   }
 }
 export default ParticleSquare;
