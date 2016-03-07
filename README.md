@@ -39,7 +39,7 @@ $ ./node_modules/.bin/gulp watch
 
 Warning: the build system is not quite friendly
 
-# todo
+# TODOs
 
 * pause
 * slow motion
