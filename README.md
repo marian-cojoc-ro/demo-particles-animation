@@ -46,3 +46,4 @@ Warning: the build system is not quite friendly
 * raf does not trigger when tab not in focus
 * max particles slider
 * display current particles count
+* resize handler
