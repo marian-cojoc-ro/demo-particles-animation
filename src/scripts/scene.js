@@ -10,7 +10,7 @@ class Scene {
     this.particlesPerSecond = 100;
     this.lastTick = null;
     this.mouse = {x: 150, y: 50};
-    this.maxParticles = 200;
+    this.maxParticles = 500;
 
     //this.initialDone = false;
     const self = this;

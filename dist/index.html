@@ -1,22 +1,63 @@
 
 
-<h4>Markup</h4>
-
-<canvas width="600" height="600">
-
-</canvas>
+<div class="content">
+  <h2>Canvas animation demo</h2>
+  <canvas width="600" height="600"></canvas>
+  <p>
+    Canvas animation demo: Particles with gravity, collision only with the edges, OOP style code, this means that I abstracted most of the entities
+    with the help of classes.
+  </p>
+  <p>
+    Click the black box above to generate more particles. A maximum of 500 particles are present. If generating while at the
+    limit, old particles will disappear.
+  </p>
+  <p class="footer">
+    By: <a href="http://codepen.io/marian-cojoc-ro">Marian-COJOC-ro</a>
+    Part of <a href="https://github.com/marian-cojoc-ro/demo-particles-animation">this experiment</a>
+  </p>
+</div>
 
 <style>
+  html {
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
   body{
     background-color: slategray;
   }
+  .content{
+    color: #F1ECDB;
+    width: 600px;
+    margin: 0 auto;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+    padding: 3px;
+  }
+  a:hover {
+    border: 1px solid lightcyan;
+  }
+  p {
+    font-size: 1.2em;
+    letter-spacing: 0.03em;
+    background-color: #333;
+    padding: 10px;
+  }
+  h2, h3 {
+    text-align: center;
+    letter-spacing: 0.2em;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 4px 0;
+  }
   canvas{
-    border: 1px solid black;
-    background-color: dimgray;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    //border: 1px solid black;
+    box-shadow: 0 0 4px 3px hsla(0, 0%, 0%, 0.4);
+    background-color: black;
   }
 
 </style>
